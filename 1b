@@ -1,0 +1,40 @@
+%{
+#include <stdio.h>
+int com = 0;
+%}
+%%
+"/\\*"([^*]|\\*+[^*/])*"\\*/" {
+    com++;
+    fprintf(yyout, " ");
+}
+.|\n {}
+%%
+int main()
+{
+    printf("write a c program\n");
+    yyout = fopen("output", "w");
+    yylex();
+    printf("comment=%d\n", com);
+    fclose(yyout);
+    return 0;
+}
+
+
+COMMAND
+
+lex 1b.l
+cc lex.yy.c -ll
+./a.out
+
+OUTPUT 
+
+write a c program
+
+#include<stdio.h>
+int main()
+{
+    // Simple Program
+    printf("Hii");
+}
+
+comment=0

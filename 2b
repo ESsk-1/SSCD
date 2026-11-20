@@ -1,0 +1,42 @@
+%{
+#include <stdio.h>
+int count = 0;
+%}
+
+LETTER [a-zA-Z]
+DIGIT [0-9]
+USCORE [_]
+
+%%
+({LETTER}|{USCORE})({LETTER}|{DIGIT}|{USCORE})* { count++; }
+.|\n                   {}
+%%
+
+int main()
+{
+    yyin = fopen("ex.txt", "r");
+
+    if (yyin == NULL)
+    {
+        printf("File not found\n");
+        return 1;
+    }
+
+    yylex();
+    fclose(yyin);
+
+    printf("No of identifiers = %d\n", count);
+    return 0;
+}
+
+
+
+command 
+
+lex 2B.l
+cc lex.yy.c -ll
+./a.out
+
+output 
+
+No. of identifiers = 5
